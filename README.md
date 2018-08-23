@@ -1,11 +1,9 @@
 # Packstack Tools
+    - Clean and Install OpenStack Scripts
+    - OpenStack RDO - Queens and Pike version
     - Packstack: Create a proof of concept cloud                                    
     - Script for CentOS 7. Using script can damage your system, Please carefully.
-    - Users shall use this Service at his/her own risk, and shall bear all responsibility for actions   carried out and their results upon this Service.
-
-
-Clean and Install OpenStack Scripts
-OpenStack RDO - Queens and Pike version
+    - Users shall use this Service at his/her own risk, and shall bear all responsibility for actions carried out and their results upon this Service.
 
 # Prerequisites
 
@@ -21,16 +19,14 @@ OpenStack RDO - Queens and Pike version
     packstack --answer-file=openstack.txt
 
 # Run the script:
-    pike version
 
     sh packstack-pike
 
 or
 
-    queens version
-
     sh packstack-queens
 
 # Read More
 Packstack: Create a proof of concept cloud
+
 https://www.rdoproject.org/install/packstack/
