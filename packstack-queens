@@ -1,0 +1,43 @@
+#!/bin/sh
+setenforce 0
+#service iptables stop
+yum install -y centos-release-openstack-queens
+yum update  -y
+yum install  -y openstack-packstack
+yum erase NetworkManager* firewalld -y
+packstack --gen-answer-file=openstack-setup.cfg
+echo ""
+echo "Comma separated list of IP Address, Example 192.168.10.10,192.168.10.20"
+echo "Server on which to install OpenStack services specific to the controller"
+read -p "Controller IP: " -e   CTLNODE
+sed -i "/CONFIG_CONTROLLER_HOST=/c\CONFIG_CONTROLLER_HOST=$CTLNODE" openstack-setup.cfg
+echo ""
+echo "List of servers on which to install the Compute service"
+read -p "Compute IP: " -e   COMPNODE
+sed -i "/CONFIG_COMPUTE_HOSTS=/c\CONFIG_CONTROLLER_HOST=$COMPNODE" openstack-setup.cfg
+echo ""
+echo "List of servers on which to install the network service"
+read -p "Network IP: " -e   NETNODE
+sed -i "/CONFIG_NETWORK_HOSTS=/c\CONFIG_CONTROLLER_HOST=$NETNODE" openstack-setup.cfg
+echo ""
+echo "The interface will be added to the associated bridge"
+echo "Select interface for the OpenStack external networking"
+ip link | awk -F: '$0 !~ "lo|vir|wl|^[^0-9]"{print $2;getline}'
+read -p "Extnet interface: " -e  EXTINT
+sed -i "/CONFIG_NEUTRON_OVS_BRIDGE_IFACES=/c\CONFIG_NEUTRON_OVS_BRIDGE_IFACES=br-ex:$EXTINT" openstack-setup.cfg
+echo ""
+read -p "Provision for demo usage and testing. [y/n]: " -e -i n CFGDEMO
+                    if [[ "$CFGDEMO" = 'y' ]]; then
+                    	sed -i "/CONFIG_PROVISION_DEMO/c\CONFIG_PROVISION_DEMO=$CFGDEMO" openstack-setup.cfg
+                    fi
+echo ""
+sed -i "/CONFIG_NEUTRON_ML2_TYPE_DRIVERS/c\CONFIG_NEUTRON_ML2_TYPE_DRIVERS=vxlan,flat,vlan" openstack-setup.cfg
+sed -i "/CONFIG_NEUTRON_ML2_TENANT_NETWORK_TYPES/c\CONFIG_NEUTRON_ML2_TENANT_NETWORK_TYPES=vxlan,vlan" openstack-setup.cfg
+echo "Ranges of VLAN tags on each available for allocation to tenant networks"
+echo "Comma-separated list of <vlan_min>:<vlan_max>. Example 10:100"
+read -p "Ranges of VLAN tags: " -e   VLTAG
+sed -i "/CONFIG_NEUTRON_ML2_VLAN_RANGES=/c\CONFIG_NEUTRON_ML2_VLAN_RANGES=extnet:$VLTAG" openstack-setup.cfg
+echo ""
+read -p "Password to use for the Identity service 'admin' user" -e ADMINPW
+sed -i "/CONFIG_KEYSTONE_ADMIN_PW=/c\CONFIG_KEYSTONE_ADMIN_PW=$ADMINPW" openstack-setup.cfg
+packstack --answer-file=openstack-setup.cfg
