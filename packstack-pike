@@ -14,11 +14,11 @@ sed -i "/CONFIG_CONTROLLER_HOST=/c\CONFIG_CONTROLLER_HOST=$CTLNODE" openstack-se
 echo ""
 echo "List of servers on which to install the Compute service"
 read -p "Compute IP: " -e   COMPNODE
-sed -i "/CONFIG_COMPUTE_HOSTS=/c\CONFIG_CONTROLLER_HOST=$COMPNODE" openstack-setup.cfg
+sed -i "/CONFIG_COMPUTE_HOSTS=/c\CONFIG_COMPUTE_HOSTS=$COMPNODE" openstack-setup.cfg
 echo ""
 echo "List of servers on which to install the network service"
 read -p "Network IP: " -e   NETNODE
-sed -i "/CONFIG_NETWORK_HOSTS=/c\CONFIG_CONTROLLER_HOST=$NETNODE" openstack-setup.cfg
+sed -i "/CONFIG_NETWORK_HOSTS=/c\CONFIG_NETWORK_HOSTS=$NETNODE" openstack-setup.cfg
 echo ""
 echo "The interface will be added to the associated bridge"
 echo "Select interface for the OpenStack external networking"
