@@ -5,7 +5,7 @@ for x in $(virsh list --all | grep instance- | awk '{print $2}') ; do
 done ;
 
 # Warning! Dangerous step! Removes lots of packages
-yum remove -y *zeromq* python-matplotlib-data nrpe "*nagios*" puppet "*ntp*" "*openstack*" "openvswitch*" "libvirt*" \
+yum remove -y centos-release-ceph-* *zeromq* python-matplotlib-data nrpe "*nagios*" puppet "*ntp*" "*openstack*" "openvswitch*" "libvirt*" \
 "*nova*" "*keystone*" "*glance*" "*cinder*" "*swift*" "redis*" "rabbitmq*" "xinetd*" "mongodb*"\
 mysql mariadb mysql-server httpd "*memcache*" scsi-target-utils \
 iscsi-initiator-utils perl-DBI perl-DBD-MySQL ;
