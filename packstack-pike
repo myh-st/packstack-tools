@@ -31,8 +31,8 @@ read -p "Provision for demo usage and testing. [y/n]: " -e -i n CFGDEMO
                     	sed -i "/CONFIG_PROVISION_DEMO/c\CONFIG_PROVISION_DEMO=$CFGDEMO" openstack-setup.cfg
                     fi
 echo ""
-sed -i "/CONFIG_NEUTRON_ML2_TYPE_DRIVERS/c\CONFIG_NEUTRON_ML2_TYPE_DRIVERS=vxlan,flat,vlan" openstack-setup.cfg
-sed -i "/CONFIG_NEUTRON_ML2_TENANT_NETWORK_TYPES/c\CONFIG_NEUTRON_ML2_TENANT_NETWORK_TYPES=vxlan,vlan" openstack-setup.cfg
+sed -i "/CONFIG_NEUTRON_ML2_TYPE_DRIVERS/c\CONFIG_NEUTRON_ML2_TYPE_DRIVERS=vxlan,flat,vlan,local" openstack-setup.cfg
+sed -i "/CONFIG_NEUTRON_ML2_TENANT_NETWORK_TYPES/c\CONFIG_NEUTRON_ML2_TENANT_NETWORK_TYPES=vxlan,vlan,local" openstack-setup.cfg
 echo "Ranges of VLAN tags on each available for allocation to tenant networks"
 echo "Comma-separated list of <vlan_min>:<vlan_max>. Example 10:100"
 read -p "Ranges of VLAN tags: " -e   VLTAG
