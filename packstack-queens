@@ -26,10 +26,10 @@ ip link | awk -F: '$0 !~ "lo|vir|wl|^[^0-9]"{print $2;getline}'
 read -p "Extnet interface: " -e  EXTINT
 sed -i "/CONFIG_NEUTRON_OVS_BRIDGE_IFACES=/c\CONFIG_NEUTRON_OVS_BRIDGE_IFACES=br-ex:$EXTINT" openstack-setup.cfg
 echo ""
-read -p "Provision for demo usage and testing. [y/n]: " -e -i n CFGDEMO
-                    if [[ "$CFGDEMO" = 'y' ]]; then
-                    	sed -i "/CONFIG_PROVISION_DEMO/c\CONFIG_PROVISION_DEMO=$CFGDEMO" openstack-setup.cfg
-                    fi
+#read -p "Provision for demo usage and testing. [y/n]: " -e -i n CFGDEMO
+#                    if [[ "$CFGDEMO" = 'y' ]]; then
+                    	sed -i "/CONFIG_PROVISION_DEMO/c\CONFIG_PROVISION_DEMO=n" openstack-setup.cfg
+#                    fi
 echo ""
 sed -i "/CONFIG_NEUTRON_ML2_TYPE_DRIVERS/c\CONFIG_NEUTRON_ML2_TYPE_DRIVERS=vxlan,flat,vlan,local" openstack-setup.cfg
 sed -i "/CONFIG_NEUTRON_ML2_TENANT_NETWORK_TYPES/c\CONFIG_NEUTRON_ML2_TENANT_NETWORK_TYPES=vxlan,vlan,local" openstack-setup.cfg
