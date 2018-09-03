@@ -26,10 +26,7 @@ ip link | awk -F: '$0 !~ "lo|vir|wl|^[^0-9]"{print $2;getline}'
 read -p "Extnet interface: " -e  EXTINT
 sed -i "/CONFIG_NEUTRON_OVS_BRIDGE_IFACES=/c\CONFIG_NEUTRON_OVS_BRIDGE_IFACES=br-ex:$EXTINT" openstack-setup.cfg
 echo ""
-#read -p "Provision for demo usage and testing. [y/n]: " -e -i n CFGDEMO
-#                    if [[ "$CFGDEMO" = 'y' ]]; then
-                    	sed -i "/CONFIG_PROVISION_DEMO/c\CONFIG_PROVISION_DEMO=n" openstack-setup.cfg
-#                    fi
+sed -i "/CONFIG_PROVISION_DEMO/c\CONFIG_PROVISION_DEMO=n" openstack-setup.cfg
 echo ""
 sed -i "/CONFIG_NEUTRON_ML2_TYPE_DRIVERS/c\CONFIG_NEUTRON_ML2_TYPE_DRIVERS=vxlan,flat,vlan,local" openstack-setup.cfg
 sed -i "/CONFIG_NEUTRON_ML2_TENANT_NETWORK_TYPES/c\CONFIG_NEUTRON_ML2_TENANT_NETWORK_TYPES=vxlan,vlan,local" openstack-setup.cfg
@@ -40,4 +37,15 @@ sed -i "/CONFIG_NEUTRON_ML2_VLAN_RANGES=/c\CONFIG_NEUTRON_ML2_VLAN_RANGES=extnet
 echo ""
 read -p "Password to use for the Identity service admin user: " -e ADMINPW
 sed -i "/CONFIG_KEYSTONE_ADMIN_PW=/c\CONFIG_KEYSTONE_ADMIN_PW=$ADMINPW" openstack-setup.cfg
-#packstack --answer-file=openstack-setup.cfg
+sed -i "/CONFIG_AMQP_HOST=/c\CONFIG_AMQP_HOST=$CTLNODE" openstack-setup.cfg
+sed -i "/CONFIG_MARIADB_HOST=/c\CONFIG_MARIADB_HOST=$CTLNODE" openstack-setup.cfg
+sed -i "/CONFIG_REDIS_HOST=/c\CONFIG_REDIS_HOST=$CTLNODE" openstack-setup.cfg
+echo ""
+read -p "Do you want to install Now? [y/n]: " -e -i n PACKS
+if [[ "$PACKS" = 'y' ]]; then
+packstack --answer-file=openstack-setup.cfg
+fi
+else
+echo "Install OpenStack via packstack"
+echo "run command : packstack --answer-file=openstack-setup.cfg"
+echo ""
