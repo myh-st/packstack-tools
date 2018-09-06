@@ -44,8 +44,8 @@ echo ""
 read -p "Do you want to install Now? [y/n]: " -e -i n PACKS
 if [[ "$PACKS" = 'y' ]]; then
 packstack --answer-file=openstack-setup.cfg
-fi
 else
 echo "Install OpenStack via packstack"
 echo "run command : packstack --answer-file=openstack-setup.cfg"
 echo ""
+fi

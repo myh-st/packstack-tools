@@ -12,6 +12,8 @@ yum remove -y *zeromq* python-matplotlib-data nrpe "*nagios*" puppet "*ntp*" "*o
 mysql* mariadb* httpd "*memcache*" scsi-target-utils \
 iscsi-initiator-utils perl-DBI perl-DBD-MySQL ;
 yum remove -y $(yum list installed | grep @centos-openstack-* | awk '{ print $1 }')
+yum remove -y $(yum list installed | grep @*ceph* | awk '{ print $1 }')
+yum remove -y python*oslo*
 # Warning! Dangerous step! Deletes local application data
 rm -rf /etc/nagios /etc/yum.repos.d/packstack_* /root/.my.cnf \
 /var/lib/mysql/ /var/lib/glance /var/lib/nova /etc/nova /etc/swift \
