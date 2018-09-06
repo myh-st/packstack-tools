@@ -40,6 +40,9 @@ sed -i "/CONFIG_KEYSTONE_ADMIN_PW=/c\CONFIG_KEYSTONE_ADMIN_PW=$ADMINPW" openstac
 sed -i "/CONFIG_AMQP_HOST=/c\CONFIG_AMQP_HOST=$CTLNODE" openstack-setup.cfg
 sed -i "/CONFIG_MARIADB_HOST=/c\CONFIG_MARIADB_HOST=$CTLNODE" openstack-setup.cfg
 sed -i "/CONFIG_REDIS_HOST=/c\CONFIG_REDIS_HOST=$CTLNODE" openstack-setup.cfg
+sed -i "/CONFIG_STORAGE_HOST=/c\CONFIG_STORAGE_HOST=$CTLNODE" openstack-setup.cfg
+sed -i "/CONFIG_SAHARA_HOST=/c\CONFIG_SAHARA_HOST=$CTLNODE" openstack-setup.cfg
+sed -i "/CONFIG_KEYSTONE_LDAP_URL=/c\CONFIG_KEYSTONE_LDAP_URL=ldap://$CTLNODE" openstack-setup.cfg
 echo ""
 read -p "Do you want to install Now? [y/n]: " -e -i n PACKS
 if [[ "$PACKS" = 'y' ]]; then
