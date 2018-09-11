@@ -5,6 +5,11 @@ yum install -y centos-release-openstack-pike
 yum update  -y
 yum install  -y openstack-packstack
 yum erase NetworkManager* firewalld -y
+mkdir -p /etc/systemd/system/mariadb.service.d
+cat <<EOT > /etc/systemd/system/mariadb.service.d/limits.conf
+[Service]
+LimitNOFILE=1000000
+EOT
 packstack --gen-answer-file=openstack-setup.cfg
 echo ""
 echo "Comma separated list of IP Address, Example 192.168.10.10,192.168.10.20"
